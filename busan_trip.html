@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>釜山行程 2024</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;background:#F5F5F0;color:#1a1a1a;font-size:14px;}
+.container{max-width:480px;margin:0 auto;padding:12px;}
+h1{font-size:18px;font-weight:600;color:#3C3489;margin-bottom:4px;}
+.subtitle{font-size:12px;color:#888;margin-bottom:12px;}
+
+.top-tab{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.top-btn{padding:7px 14px;border-radius:20px;border:1px solid #ddd;background:#fff;color:#666;cursor:pointer;font-size:12px;font-weight:500;}
+.top-btn.active{background:#534AB7;color:#fff;border-color:#534AB7;}
+.top-btn.book.active{background:#0F6E56;color:#fff;border-color:#0F6E56;}
+.section{display:none;}.section.active{display:block;}
+
+.hotel-bar{display:flex;flex-direction:column;gap:8px;margin-bottom:12px;}
+.hotel-card{border-radius:10px;padding:10px 12px;font-size:12px;border:1px solid #ddd;}
+.hotel-card.hae{background:#E6F1FB;border-color:#B5D4F4;}
+.hotel-card.city{background:#EEEDFE;border-color:#CECBF6;}
+.hotel-name{font-weight:600;font-size:13px;margin-bottom:3px;}
+.hotel-name.hae{color:#0C447C;}
+.hotel-name.city{color:#3C3489;}
+.hotel-info{color:#666;line-height:1.5;}
+
+.day-tab{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
+.tab-btn{padding:6px 12px;border-radius:16px;border:1px solid #ddd;background:#fff;color:#666;cursor:pointer;font-size:12px;font-weight:500;}
+.tab-btn.active{background:#534AB7;color:#fff;border-color:#534AB7;}
+.day-panel{display:none;}.day-panel.active{display:block;}
+
+.day-header{border-radius:10px;padding:10px 12px;margin-bottom:10px;}
+.day-header.hae{background:#E6F1FB;}
+.day-header.bvp{background:#EEEDFE;}
+.day-header.normal{background:#F0F0F0;}
+.day-title{font-size:14px;font-weight:600;color:#3C3489;margin-bottom:4px;}
+.badges{display:flex;gap:5px;flex-wrap:wrap;}
+.badge-bvp{font-size:10px;font-weight:600;background:#0F6E56;color:#fff;padding:2px 8px;border-radius:10px;}
+.badge-hae{font-size:10px;font-weight:600;background:#185FA5;color:#fff;padding:2px 8px;border-radius:10px;}
+.badge-city{font-size:10px;font-weight:600;background:#534AB7;color:#fff;padding:2px 8px;border-radius:10px;}
+
+.tip-box{background:#fff;border-left:3px solid #534AB7;border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:#555;margin:8px 0;line-height:1.6;}
+.luggage-box{background:#FAEEDA;border-left:3px solid #BA7517;border-radius:0 8px 8px 0;padding:8px 10px;font-size:11px;color:#5a3a00;margin:8px 0;line-height:1.6;}
+
+.event{display:flex;gap:8px;margin-bottom:9px;}
+.event.opt{opacity:0.65;}
+.time-col{min-width:38px;text-align:right;font-size:11px;color:#999;font-weight:500;padding-top:3px;flex-shrink:0;}
+.dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.dot.food{background:#E24B4A;}
+.dot.bvp-p{background:#534AB7;}
+.dot.bvp-b{background:#1D9E75;}
+.dot.move{background:#378ADD;}
+.dot.misc{background:#aaa;}
+.dot.lug{background:#BA7517;}
+.dot.sel{background:#bbb;}
+.content{flex:1;min-width:0;}
+.place{font-weight:500;font-size:13px;line-height:1.4;}
+.pbadge{display:inline-block;font-size:9px;font-weight:600;padding:1px 5px;border-radius:8px;vertical-align:middle;margin-left:3px;}
+.pbadge.p{background:#EEEDFE;color:#3C3489;border:1px solid #CECBF6;}
+.pbadge.b{background:#E1F5EE;color:#085041;border:1px solid #9FE1CB;}
+.pbadge.s{background:#eee;color:#666;border:1px solid #ddd;}
+.sub{font-size:11px;color:#777;line-height:1.5;margin-top:2px;}
+.nmap{display:inline-flex;align-items:center;font-size:10px;color:#03C75A;background:#E8FAF0;border-radius:8px;padding:2px 6px;margin-left:3px;cursor:pointer;border:1px solid #A8E6C3;text-decoration:none;font-weight:600;vertical-align:middle;}
+.divider{border:none;border-top:1px solid #eee;margin:8px 0;}
+.sec-label{font-size:10px;font-weight:600;color:#534AB7;letter-spacing:.5px;text-transform:uppercase;margin:10px 0 5px;}
+
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#777;}
+.leg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+.book-card{border-radius:10px;border:1px solid #e0e0e0;padding:10px 12px;margin-bottom:8px;background:#fff;}
+.book-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:5px;}
+.book-title{font-weight:600;font-size:13px;flex:1;}
+.book-tags{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;}
+.tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:8px;}
+.tag.red{background:#FCEBEB;color:#A32D2D;border:1px solid #F7C1C1;}
+.tag.amber{background:#FAEEDA;color:#633806;border:1px solid #FAC775;}
+.tag.purple{background:#EEEDFE;color:#3C3489;border:1px solid #CECBF6;}
+.tag.blue{background:#E1F5EE;color:#085041;border:1px solid #9FE1CB;}
+.tag.gray{background:#f0f0f0;color:#666;border:1px solid #ddd;}
+.book-det{font-size:11px;color:#777;line-height:1.6;}
+.book-day{font-size:10px;color:#aaa;margin-top:3px;}
+.plat{display:inline-flex;align-items:center;padding:3px 10px;border-radius:8px;font-size:10px;font-weight:600;cursor:pointer;margin:4px 4px 0 0;text-decoration:none;}
+.plat.klook{background:#FF6B2C;color:#fff;}
+.plat.kkday{background:#FF4F70;color:#fff;}
+.plat.nm{background:#E8FAF0;color:#03C75A;border:1px solid #A8E6C3;}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>釜山行程 2024</h1>
+<p class="subtitle">09/06 (SAT) — 09/10 (WED) · 5天4夜</p>
+
+<div class="top-tab">
+  <button class="top-btn active" onclick="showSec(0)">行程總覽</button>
+  <button class="top-btn book" onclick="showSec(1)">預訂清單</button>
+</div>
+
+<div class="section active">
+  <div class="hotel-bar">
+    <div class="hotel-card hae">
+      <div class="hotel-name hae">D1-D2 海雲台會議飯店</div>
+      <div class="hotel-info">해운대구 / D2 退房後行李寄放於此</div>
+    </div>
+    <div class="hotel-card city">
+      <div class="hotel-name city">D2晚-D5 Urbanstay Busan City Hall</div>
+      <div class="hotel-info">중앙대로 1116-8, 연제구 시청역</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#534AB7"></div>Purple景點</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1D9E75"></div>Blue景點</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#bbb"></div>選配</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#BA7517"></div>行李</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#378ADD"></div>交通</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#E24B4A"></div>餐食</div>
+  </div>
+
+  <div class="day-tab">
+    <button class="tab-btn active" onclick="showDay(0)">D1 海雲台</button>
+    <button class="tab-btn" onclick="showDay(1)">D2 東釜山</button>
+    <button class="tab-btn" onclick="showDay(2)">D3 西/中</button>
+    <button class="tab-btn" onclick="showDay(3)">D4 影島</button>
+    <button class="tab-btn" onclick="showDay(4)">D5 返台</button>
+  </div>
+
+  <!-- D1 -->
+  <div class="day-panel active">
+    <div class="day-header hae">
+      <div class="day-title">D1 — 到達 + 海雲台</div>
+      <div class="badges"><span class="badge-hae">海雲台會議飯店</span></div>
+    </div>
+    <div class="tip-box">今天是週六！晚上去廣安里看無人機表演 20:00-22:00</div>
+    <div class="event"><div class="time-col">15:30</div><div class="dot move"></div><div class="content">
+      <div class="place">金海國際機場抵達<a class="nmap" href="https://map.naver.com/v5/search/김해국제공항" target="_blank">N地圖</a></div>
+      <div class="sub">辦 WOWPASS、買 T-money 交通卡</div>
+    </div></div>
+    <div class="event"><div class="time-col">16:30</div><div class="dot misc"></div><div class="content">
+      <div class="place">入住海雲台會議飯店<a class="nmap" href="https://map.naver.com/v5/search/해운대컨벤션호텔" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">17:00</div><div class="dot food"></div><div class="content">
+      <div class="place">海雲台傳統市場 逛街+晚餐<a class="nmap" href="https://map.naver.com/v5/search/해운대전통시장" target="_blank">N地圖</a></div>
+      <div class="sub">海鮮蔥煎餅、31cm 刀削麵、市場小吃</div>
+    </div></div>
+    <div class="event"><div class="time-col">19:30</div><div class="dot move"></div><div class="content">
+      <div class="place">搭地鐵去廣安里</div>
+      <div class="sub">Line 2 해운대역 → 광안역，約 15 分</div>
+    </div></div>
+    <div class="event"><div class="time-col">20:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">廣安里無人機表演<a class="nmap" href="https://map.naver.com/v5/search/광안리해수욕장" target="_blank">N地圖</a></div>
+      <div class="sub">20:00-22:00，廣安大橋旁海灘最佳 / 僅週六限定！</div>
+    </div></div>
+    <div class="event"><div class="time-col">22:00</div><div class="dot move"></div><div class="content">
+      <div class="place">搭地鐵回海雲台飯店</div>
+      <div class="sub">광안역 → Line 2 → 해운대역</div>
+    </div></div>
+  </div>
+
+  <!-- D2 -->
+  <div class="day-panel">
+    <div class="day-header bvp">
+      <div class="day-title">D2 — 東釜山全日</div>
+      <div class="badges"><span class="badge-bvp">BVP48 啟動</span><span class="badge-city">今晚 Urbanstay</span></div>
+    </div>
+    <div class="luggage-box">行李策略：退房後寄放海雲台會議飯店，玩完松亭取行李，Uber 去 Urbanstay 入住。</div>
+    <div class="event"><div class="time-col">09:00</div><div class="dot lug"></div><div class="content">
+      <div class="place">退房 + 行李寄放飯店</div>
+      <div class="sub">跟前台說「짐 보관 부탁드립니다」</div>
+    </div></div>
+    <div class="event"><div class="time-col">09:30</div><div class="dot food"></div><div class="content">
+      <div class="place">Egg Drop 海雲台店 早餐<a class="nmap" href="https://map.naver.com/v5/search/에그드랍+해운대점" target="_blank">N地圖</a></div>
+      <div class="sub">大蒜培根起司、Mr. Egg 蜜吐司</div>
+    </div></div>
+    <div class="event"><div class="time-col">10:30</div><div class="dot misc"></div><div class="content">
+      <div class="place">海雲台海灘晨間散步<a class="nmap" href="https://map.naver.com/v5/search/해운대해수욕장" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">11:00</div><div class="dot bvp-p"></div><div class="content">
+      <div class="place">Busan X the Sky<span class="pbadge p">Purple</span><a class="nmap" href="https://map.naver.com/v5/search/부산엑스더스카이" target="_blank">N地圖</a></div>
+      <div class="sub">LCT 地標塔，海雲台全景，10:00-21:00</div>
+    </div></div>
+    <div class="event"><div class="time-col">13:00</div><div class="dot move"></div><div class="content">
+      <div class="place">步行至尾浦站<a class="nmap" href="https://map.naver.com/v5/search/해운대블루라인파크+미포역" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">13:30</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">海岸列車 尾浦→青沙浦→松亭<span class="pbadge b">Blue</span></div>
+      <div class="sub">BVP 無限搭，不需預訂，每 30 分一班</div>
+    </div></div>
+    <div class="event"><div class="time-col">14:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">青沙浦中途下車散步<a class="nmap" href="https://map.naver.com/v5/search/청사포" target="_blank">N地圖</a></div>
+      <div class="sub">DIART COFFEE <a class="nmap" href="https://map.naver.com/v5/search/DIART+COFFEE+청사포" target="_blank">N地圖</a> / 紅白燈塔拍照</div>
+    </div></div>
+    <div class="event"><div class="time-col">14:30</div><div class="dot food"></div><div class="content">
+      <div class="place">自然島鹽麵包 下午點心<a class="nmap" href="https://map.naver.com/v5/search/자연도소금빵+청사포" target="_blank">N地圖</a></div>
+      <div class="sub">朋友推薦！青沙浦附近邊走邊吃</div>
+    </div></div>
+    <div class="event"><div class="time-col">15:00</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">繼續搭海岸列車前往松亭<span class="pbadge b">Blue</span></div>
+    </div></div>
+    <div class="event"><div class="time-col">15:30</div><div class="dot bvp-p"></div><div class="content">
+      <div class="place">Skyline Luge 釜山<span class="pbadge p">Purple</span><a class="nmap" href="https://map.naver.com/v5/search/스카이라인루지+부산" target="_blank">N地圖</a></div>
+      <div class="sub">現場出示 BVP 換票，不需預訂</div>
+    </div></div>
+    <div class="divider"></div>
+    <div class="sec-label">行李 + 換飯店</div>
+    <div class="event"><div class="time-col">17:30</div><div class="dot lug"></div><div class="content">
+      <div class="place">回海雲台會議飯店取行李<a class="nmap" href="https://map.naver.com/v5/search/해운대컨벤션호텔" target="_blank">N地圖</a></div>
+      <div class="sub">松亭 → 해운대역，地鐵或 Uber</div>
+    </div></div>
+    <div class="event"><div class="time-col">18:00</div><div class="dot move"></div><div class="content">
+      <div class="place">Uber → Urbanstay Busan City Hall 入住<a class="nmap" href="https://map.naver.com/v5/search/어반스테이+부산시청" target="_blank">N地圖</a></div>
+      <div class="sub">海雲台 → Urbanstay，約 20 分</div>
+    </div></div>
+  </div>
+
+  <!-- D3 -->
+  <div class="day-panel">
+    <div class="day-header bvp">
+      <div class="day-title">D3 — 西/中釜山</div>
+      <div class="badges"><span class="badge-bvp">BVP48 Day2</span><span class="badge-city">Urbanstay</span></div>
+    </div>
+    <div class="tip-box">路線：松島（纜車+龍宮步道）→ 甘川洞（韓服+手翻書）→ 西面（Running Man 選配）→ Arte Museum → 廣安里 → 回飯店</div>
+    <div class="event"><div class="time-col">09:30</div><div class="dot move"></div><div class="content">
+      <div class="place">出發松島（Uber 約 25 分）</div>
+    </div></div>
+    <div class="event"><div class="time-col">10:00</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">松島海上纜車（水晶車廂）<span class="pbadge b">Blue</span><a class="nmap" href="https://map.naver.com/v5/search/송도해상케이블카" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">11:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">松島龍宮空中步道（免費）<a class="nmap" href="https://map.naver.com/v5/search/송도용궁구름다리" target="_blank">N地圖</a></div>
+      <div class="sub">127m 海上橋樑，纜車下來步行即達</div>
+    </div></div>
+    <div class="event"><div class="time-col">12:00</div><div class="dot food"></div><div class="content">
+      <div class="place">松島午餐：바닷속조개왕국<a class="nmap" href="https://map.naver.com/v5/search/바닷속조개왕국+서구" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">13:30</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">甘川浪漫韓服 / 甘川洞文化村<span class="pbadge b">Blue</span><a class="nmap" href="https://map.naver.com/v5/search/감천낭만한복" target="_blank">N地圖</a></div>
+      <div class="sub">松島 → 甘川洞 Uber 約 10 分</div>
+    </div></div>
+    <div class="event"><div class="time-col">14:30</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">Flipbook Studio 手翻書<span class="pbadge b">Blue</span><a class="nmap" href="https://map.naver.com/v5/search/플립북스튜디오+감천문화마을" target="_blank">N地圖</a></div>
+      <div class="sub">甘川洞內，BVP 免費，約 30 分鐘</div>
+    </div></div>
+    <div class="event"><div class="time-col">15:30</div><div class="dot move"></div><div class="content">
+      <div class="place">前往西面（Uber 約 20 分）</div>
+    </div></div>
+    <div class="event opt"><div class="time-col">16:00</div><div class="dot sel"></div><div class="content">
+      <div class="place">Running Man 體驗館<span class="pbadge b">Blue</span><span class="pbadge s">選配</span><a class="nmap" href="https://map.naver.com/v5/search/런닝맨체험관+서면" target="_blank">N地圖</a></div>
+      <div class="sub">서면역 2 號出口 Fiesta 百貨 10F，限 1 小時</div>
+    </div></div>
+    <div class="event"><div class="time-col">17:00</div><div class="dot food"></div><div class="content">
+      <div class="place">螞蟻家 辣炒章魚<a class="nmap" href="https://map.naver.com/v5/search/개미집+서면" target="_blank">N地圖</a></div>
+      <div class="sub">朋友推薦，注意：很辣！</div>
+    </div></div>
+    <div class="event"><div class="time-col">18:30</div><div class="dot bvp-b"></div><div class="content">
+      <div class="place">Arte Museum 釜山<span class="pbadge b">Blue</span><a class="nmap" href="https://map.naver.com/v5/search/아르떼뮤지엄+부산" target="_blank">N地圖</a></div>
+      <div class="sub">서면역 → 센텀시티역，Line 2 約 10 分</div>
+    </div></div>
+    <div class="event"><div class="time-col">20:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">廣安里夜景散步<a class="nmap" href="https://map.naver.com/v5/search/광안리해수욕장" target="_blank">N地圖</a></div>
+      <div class="sub">센텀시티역 → 광안역 2 站 / 민락더마켓 <a class="nmap" href="https://map.naver.com/v5/search/민락더마켓" target="_blank">N地圖</a></div>
+    </div></div>
+    <div class="event"><div class="time-col">21:30</div><div class="dot move"></div><div class="content">
+      <div class="place">搭地鐵回 Urbanstay</div>
+      <div class="sub">광안역 → 수영역 轉 Line 3 → 시청역，約 20 分</div>
+    </div></div>
+  </div>
+
+  <!-- D4 -->
+  <div class="day-panel">
+    <div class="day-header normal">
+      <div class="day-title">D4 — 影島 + 南浦洞</div>
+      <div class="badges"><span class="badge-city">Urbanstay / BVP 已到期</span></div>
+    </div>
+    <div class="event"><div class="time-col">10:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">影島 THRILL ON THE MUG<a class="nmap" href="https://map.naver.com/v5/search/THRILL+ON+THE+MUG+영도" target="_blank">N地圖</a></div>
+      <div class="sub">海景咖啡廳 + 頂樓高空滑索</div>
+    </div></div>
+    <div class="event"><div class="time-col">11:30</div><div class="dot misc"></div><div class="content">
+      <div class="place">白淺灘文化村<a class="nmap" href="https://map.naver.com/v5/search/흰여울문화마을+영도" target="_blank">N地圖</a></div>
+      <div class="sub">
+        足浴咖啡廳 VIEW <a class="nmap" href="https://map.naver.com/v5/search/즉목카페+뷰+영도" target="_blank">N地圖</a><br>
+        Having Moment <a class="nmap" href="https://map.naver.com/v5/search/Having+Moment+영도" target="_blank">N地圖</a><br>
+        Hail Le 冰淇淋
+      </div>
+    </div></div>
+    <div class="event"><div class="time-col">13:00</div><div class="dot food"></div><div class="content">
+      <div class="place">水邊豬肉湯飯 午餐<a class="nmap" href="https://map.naver.com/v5/search/수변돼지국밥" target="_blank">N地圖</a></div>
+      <div class="sub">朋友推薦！南浦洞附近</div>
+    </div></div>
+    <div class="event"><div class="time-col">14:30</div><div class="dot misc"></div><div class="content">
+      <div class="place">南浦洞 BIFF 廣場掃街<a class="nmap" href="https://map.naver.com/v5/search/BIFF광장+부산" target="_blank">N地圖</a></div>
+      <div class="sub">
+        李在模 PIZZA <a class="nmap" href="https://map.naver.com/v5/search/이재모피자+남포" target="_blank">N地圖</a><br>
+        扎嘎其市場 <a class="nmap" href="https://map.naver.com/v5/search/자갈치시장" target="_blank">N地圖</a><br>
+        國際市場 <a class="nmap" href="https://map.naver.com/v5/search/국제시장+부산" target="_blank">N地圖</a><br>
+        光復路逛街 <a class="nmap" href="https://map.naver.com/v5/search/광복로+부산" target="_blank">N地圖</a><br>
+        富平罐頭夜市 <a class="nmap" href="https://map.naver.com/v5/search/부평깡통야시장" target="_blank">N地圖</a>
+      </div>
+    </div></div>
+    <div class="event"><div class="time-col">18:30</div><div class="dot food"></div><div class="content">
+      <div class="place">味贊王鹽烤肉 南浦店 晚餐<a class="nmap" href="https://map.naver.com/v5/search/맛찬들왕소금구이+남포" target="_blank">N地圖</a></div>
+      <div class="sub">朋友推薦！掃完街直接吃</div>
+    </div></div>
+    <div class="event"><div class="time-col">20:00</div><div class="dot move"></div><div class="content">
+      <div class="place">搭地鐵回 Urbanstay</div>
+      <div class="sub">남포역 → 서면역 轉 Line 3 → 시청역，約 25 分</div>
+    </div></div>
+  </div>
+
+  <!-- D5 -->
+  <div class="day-panel">
+    <div class="day-header normal">
+      <div class="day-title">D5 — 掃貨 + 返台</div>
+      <div class="badges"><span class="badge-city">Urbanstay / 22:00 起飛</span></div>
+    </div>
+    <div class="tip-box">22:00 起飛，建議 19:30 前出發（地鐵約 50 分鐘）</div>
+    <div class="event"><div class="time-col">12:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">Spa Land Centum City（自費）<a class="nmap" href="https://map.naver.com/v5/search/신세계스파랜드+센텀시티" target="_blank">N地圖</a></div>
+      <div class="sub">BVP 已到期需自費 / B2 可寄放行李</div>
+    </div></div>
+    <div class="event"><div class="time-col">15:00</div><div class="dot misc"></div><div class="content">
+      <div class="place">西面掃購逛街<a class="nmap" href="https://map.naver.com/v5/search/서면+지하상가" target="_blank">N地圖</a></div>
+      <div class="sub">樂天百貨 B1 水蜜桃蛋糕 <a class="nmap" href="https://map.naver.com/v5/search/롯데백화점+부산본점" target="_blank">N地圖</a> / 西面地下街買衣服</div>
+    </div></div>
+    <div class="event"><div class="time-col">18:00</div><div class="dot food"></div><div class="content">
+      <div class="place">西面隨意吃晚餐</div>
+      <div class="sub">吃飽再出發機場比較舒服！</div>
+    </div></div>
+    <div class="event"><div class="time-col">19:30</div><div class="dot move"></div><div class="content">
+      <div class="place">出發金海機場（記得退稅）<a class="nmap" href="https://map.naver.com/v5/search/김해국제공항" target="_blank">N地圖</a></div>
+      <div class="sub">Line 2 → 사상역，轉輕軌 → 공항역，約 50 分</div>
+    </div></div>
+  </div>
+</div>
+
+<!-- 預訂清單 -->
+<div class="section">
+  <div class="tip-box">必訂 = 沒訂可能進不去 / 建議訂 = 省時省錢</div>
+
+  <div class="book-card">
+    <div class="book-hd"><div class="book-title">遊艇行程（Yachtholic）</div><div class="book-tags"><span class="tag red">必訂</span><span class="tag purple">Purple</span></div></div>
+    <div class="book-det">名額有限，必須提前預約。BVP Purple 免費，夜間加收 5,000 韓圜，含啤酒飲料和煙火秀。</div>
+    <div class="book-day">彈性加入任一天</div>
+    <div style="margin-top:6px">
+      <a class="plat klook" href="https://www.klook.com/zh-TW/search/?query=yacht+busan+holic" target="_blank">Klook</a>
+      <a class="plat kkday" href="https://www.kkday.com/zh-tw/search?q=yachtholic+busan" target="_blank">KKday</a>
+      <a class="plat nm" href="https://map.naver.com/v5/search/수영만요트경기장" target="_blank">N地圖</a>
+    </div>
+  </div>
+
+  <div class="book-card">
+    <div class="book-hd"><div class="book-title">甘川浪漫韓服</div><div class="book-tags"><span class="tag amber">建議預約</span><span class="tag blue">Blue</span></div></div>
+    <div class="book-det">BVP Blue 免費，旺季建議提前聯絡預約時段，韓服拍照約 1.5 小時。</div>
+    <div class="book-day">D3 使用（約 13:30）</div>
+    <div style="margin-top:6px"><a class="plat nm" href="https://map.naver.com/v5/search/감천낭만한복" target="_blank">N地圖</a></div>
+  </div>
+
+  <div class="book-card">
+    <div class="book-hd"><div class="book-title">Flipbook Studio 手翻書</div><div class="book-tags"><span class="tag amber">建議確認</span><span class="tag blue">Blue</span></div></div>
+    <div class="book-det">BVP Blue 免費，甘川洞文化村內，出發前確認營業時間，體驗約 30 分鐘。</div>
+    <div class="book-day">D3 使用（約 14:30）</div>
+    <div style="margin-top:6px"><a class="plat nm" href="https://map.naver.com/v5/search/플립북스튜디오+감천문화마을" target="_blank">N地圖</a></div>
+  </div>
+
+  <div class="book-card">
+    <div class="book-hd"><div class="book-title">Running Man 體驗館</div><div class="book-tags"><span class="tag blue">Blue</span><span class="tag gray">選配</span></div></div>
+    <div class="book-det">BVP Blue 免費，限時 1 小時。選配項目，有興趣再去即可。</div>
+    <div class="book-day">D3 選配（約 16:00）</div>
+    <div style="margin-top:6px"><a class="plat nm" href="https://map.naver.com/v5/search/런닝맨체험관+서면" target="_blank">N地圖</a></div>
+  </div>
+
+  <div class="book-card">
+    <div class="book-hd"><div class="book-title">Skyline Luge</div><div class="book-tags"><span class="tag purple">Purple</span></div></div>
+    <div class="book-det">不需預訂！持 BVP 現場換票，免費 2 次滑車或 1 次高空滑索。</div>
+    <div class="book-day">D2 使用（約 15:30）</div>
+    <div style="margin-top:6px"><a class="plat nm" href="https://map.naver.com/v5/search/스카이라인루지+부산" target="_blank">N地圖</a></div>
+  </div>
+
+  <div class="tip-box" style="margin-top:10px;">BVP48 通行證需在台灣出發前從 Klook / KKday 購買，抵達釜山後到指定地點換實體卡！</div>
+</div>
+
+</div>
+<script>
+function showSec(i){document.querySelectorAll('.top-btn').forEach((b,j)=>b.classList.toggle('active',i===j));document.querySelectorAll('.section').forEach((s,j)=>s.classList.toggle('active',i===j));}
+function showDay(i){document.querySelectorAll('.tab-btn').forEach((b,j)=>b.classList.toggle('active',i===j));document.querySelectorAll('.day-panel').forEach((p,j)=>p.classList.toggle('active',i===j));}
+</script>
+</body>
+</html>
